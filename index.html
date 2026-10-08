@@ -2881,10 +2881,8 @@
     <div><p class="consideracao-titulo">Marketing<span class="consideracao-tag ">Informativo</span></p><p class="consideracao-texto">O investimento em marketing foi de <b>R$&nbsp;4.157</b> em Setembro (3,2% da receita); no ano, R$&nbsp;22.609 (3,3%). Como a divulgação da Bem Vista é feita principalmente pelo Instagram, registrar a origem de cada reserva permite medir o retorno de cada real investido.</p></div></div>
     <div class="consideracao-item"><div class="consideracao-icone "><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></div>
     <div><p class="consideracao-titulo">Fluxo de Caixa e Projeção<span class="consideracao-tag ">Informativo</span></p><p class="consideracao-texto">A Bem Vista <b>gerou R$&nbsp;2.234</b> de caixa em Setembro, terminando o mês com <b>R$&nbsp;39.697</b> em conta. Partindo do saldo em conta mais recente (R$&nbsp;19.482 em Outubro) e somando as entradas e saídas já programadas, o saldo projetado chega a <b>R$&nbsp;290.427</b> em Dezembro; o ponto mais apertado é Novembro (R$&nbsp;191.943). Há R$&nbsp;232.819 de entradas programadas para Novembro, período de formaturas e festas de fim de ano.</p></div></div>
-    <div class="consideracao-item"><div class="consideracao-icone positivo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7a2 2 0 112-2c0 1-2 1.5-2 3"></path><path d="M12 8L2.5 16.2A1.5 1.5 0 003.5 19h17a1.5 1.5 0 001-2.8z"></path></svg></div>
-    <div><p class="consideracao-titulo">Locações<span class="consideracao-tag positivo">Ponto positivo</span></p><p class="consideracao-texto">Foram registradas <b>143 locações</b> em Setembro, somando R$&nbsp;155.345 em contratos, com ticket médio de <b>R$&nbsp;1.086</b>, que cresceu 7% em relação a Agosto (R$&nbsp;1.013 em 233 locações). A maior locação do mês foi de R$&nbsp;2.500. No ano já são 962 locações, com ticket médio de R$&nbsp;975.</p></div></div>
     <div class="consideracao-item"><div class="consideracao-icone atencao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
-    <div><p class="consideracao-titulo">Vendas e Inadimplência<span class="consideracao-tag atencao">Ponto de atenção</span></p><p class="consideracao-texto">Das <b>962 vendas</b> fechadas em 2026 (R$&nbsp;937.611), 86 foram recebidas por completo, 268 parcialmente e 608 seguem sem recebimento vinculado. Na posição de 08/10/26, <b>R$&nbsp;321.940</b> estavam vencidos em 383 vendas (34,3% do valor vendido). Esse controle considera apenas os recebimentos via Pix, baixados na própria venda. No mesmo período entraram <b>R$&nbsp;354.246</b> por cartão de crédito direto na conta, sem baixa nas vendas: parte do saldo em aberto pode já estar paga. Vincular esses recebimentos às vendas é o passo que falta para medir a inadimplência real.</p></div></div></div></div>
+    <div><p class="consideracao-titulo">Vendas e Inadimplência<span class="consideracao-tag atencao">Ponto de atenção</span></p><p class="consideracao-texto">Foram fechadas <b>143 vendas</b> em Setembro (R$&nbsp;155.345), com ticket médio de <b>R$&nbsp;1.086</b>, que cresceu 7% frente a Agosto (R$&nbsp;1.013). Das <b>962 vendas</b> de 2026 (R$&nbsp;937.611), 86 foram recebidas por completo, 268 parcialmente e 608 seguem sem recebimento vinculado. Na posição de 08/10/26, <b>R$&nbsp;321.940</b> estavam vencidos em 383 vendas (34,3% do valor vendido). Esse controle considera apenas os recebimentos via Pix, baixados na própria venda. No mesmo período entraram <b>R$&nbsp;354.246</b> por cartão de crédito direto na conta, sem baixa nas vendas: parte do saldo em aberto pode já estar paga.</p></div></div></div></div>
     </div>
   </section>
 
@@ -2893,7 +2891,7 @@
 <div id="detalhePopup" class="detalhe-popup" hidden=""></div>
 <div id="tmTip" class="tm-tip" hidden=""></div>
 <div id="pdfBuildArea"></div>
-<div id="toast" class="toast" role="status" aria-live="polite">Base atualizada: 508 lançamentos de fluxo, 205 de centro de custo, 220 da DRE e 962 vendas.</div>
+<div id="toast" class="toast show" role="status" aria-live="polite">Base atualizada: 508 lançamentos de fluxo, 205 de centro de custo, 220 da DRE e 962 vendas.</div>
 
 <footer class="app-footer">
   <b>Empresarial BPO Financeiro</b> · Relatório gerencial personalizado para a Bem Vista · Dados atualizados em <span id="dataGeradoEm">08/10/2026 16:32</span>
@@ -4506,8 +4504,8 @@ function computarConsideracoes(){
     itens.push({ icone: gerA>=0?'trend-up':'trend-down', tom:tm, titulo:'Fluxo de Caixa e Projeção', texto:t });
   }
 
-  // 10) Locações do mês (linhas "Venda" do relatório detalhado)
-  if (temLocacoes()){
+  // 10) Locações do mês: só quando não há o relatório de vendas (com ele, o item 11 cobre o assunto)
+  if (temLocacoes() && !appData.vendas.length){
     const at = locacoes([ano],[mes]), ant2 = locacoes([ant.ano],[ant.mes]), acumL = locacoes([ano],acum);
     if (at.qtd || ant2.qtd){
       const v = ant2.qtd ? descreverVariacao(at.ticket, ant2.ticket) : null;
@@ -4523,9 +4521,12 @@ function computarConsideracoes(){
   if (appData.vendas.length){
     const rv = resumoVendas(vendasEnriquecidas([ano], acum)), cx = entradasCaixa([ano], acum);
     if (rv.qtd){
-      let t = `Das <b>${fmtInt(rv.qtd)} vendas</b> fechadas em ${ano} (${fmtBRL(rv.total)}), ${fmtInt(rv.nQuit)} foram recebidas por completo, ${fmtInt(rv.nParc)} parcialmente e ${fmtInt(rv.nAberta)} seguem sem recebimento vinculado.`;
+      const at = locacoes([ano],[mes]), ant2 = locacoes([ant.ano],[ant.mes]);
+      const vt = at.qtd && ant2.qtd ? descreverVariacao(at.ticket, ant2.ticket) : null;
+      let t = at.qtd ? `Foram fechadas <b>${fmtInt(at.qtd)} vendas</b> em ${nomeAtual} (${fmtBRL(at.total)}), com ticket médio de <b>${fmtBRL(at.ticket)}</b>${vt ? `, que ${vt.termo} frente a ${nomeAnt} (${fmtBRL(ant2.ticket)})` : ''}. ` : '';
+      t += `Das <b>${fmtInt(rv.qtd)} vendas</b> de ${ano} (${fmtBRL(rv.total)}), ${fmtInt(rv.nQuit)} foram recebidas por completo, ${fmtInt(rv.nParc)} parcialmente e ${fmtInt(rv.nAberta)} seguem sem recebimento vinculado.`;
       if (appData.inad.length) t += ` Na posição de ${fmtData(appData.inadPosicao)}, <b>${fmtBRL(rv.vencido)}</b> estavam vencidos em ${fmtInt(rv.nVenc)} vendas (${fmtPct(pctDe(rv.vencido, rv.total))} do valor vendido).`;
-      t += ` Esse controle considera apenas os recebimentos via Pix, baixados na própria venda. No mesmo período entraram <b>${fmtBRL(cx.cartao)}</b> por cartão de crédito direto na conta, sem baixa nas vendas: parte do saldo em aberto pode já estar paga. Vincular esses recebimentos às vendas é o passo que falta para medir a inadimplência real.`;
+      t += ` Esse controle considera apenas os recebimentos via Pix, baixados na própria venda. No mesmo período entraram <b>${fmtBRL(cx.cartao)}</b> por cartão de crédito direto na conta, sem baixa nas vendas: parte do saldo em aberto pode já estar paga.`;
       itens.push({ icone:'credit-card', tom: appData.inad.length && rv.vencido > 0.004 ? 'atencao' : '', titulo:'Vendas e Inadimplência', texto:t });
     }
   }
@@ -4696,14 +4697,14 @@ document.getElementById('btnSalvarHtml').addEventListener('click', async ()=>{
 });
 
 /* =========================================================================
-   BOTÃO: BAIXAR PDF - relatório A4 (6 páginas)
+   BOTÃO: BAIXAR PDF - relatório A4 (7 páginas)
    Capa com apresentação, números do mês, destaques e sumário; uma seção por
    página com texto explicativo; gráficos desenhados só para o PDF (tamanho
    fixo, alta resolução); considerações finais e glossário.
    Mês de referência = último mês fechado (o mesmo dos insights); gráficos e
    despesas acompanham os filtros de Ano/Mês da tela.
    ========================================================================= */
-const PDF_TOTAL_PAGINAS = 6;
+const PDF_TOTAL_PAGINAS = 7;
 const PDF_CHART_W = 664;
 
 function pdfContexto(){
@@ -4877,19 +4878,103 @@ function pdfPaginaCapa(ctx){
       <div>
         <p class="pdf-sub">Conteúdo</p>
         <div class="pdf-sumario">
-          <div><span class="n">1</span><span class="t">Receitas operacionais</span><span class="p">pág. 2</span></div>
-          <div><span class="n">4</span><span class="t">Fluxo de caixa e projeção</span><span class="p">pág. 5</span></div>
-          <div><span class="n">2</span><span class="t">Despesas por centro de custo</span><span class="p">pág. 3</span></div>
-          <div><span class="n">5</span><span class="t">Insights e considerações finais</span><span class="p">pág. 6</span></div>
-          <div><span class="n">3</span><span class="t">Resultado do período (DRE)</span><span class="p">pág. 4</span></div>
-          <div><span class="n">·</span><span class="t">Glossário</span><span class="p">pág. 6</span></div>
+          <div><span class="n">1</span><span class="t">Vendas e inadimplência</span><span class="p">pág. 2</span></div>
+          <div><span class="n">5</span><span class="t">Fluxo de caixa e projeção</span><span class="p">pág. 6</span></div>
+          <div><span class="n">2</span><span class="t">Receitas operacionais</span><span class="p">pág. 3</span></div>
+          <div><span class="n">6</span><span class="t">Insights e considerações finais</span><span class="p">pág. 7</span></div>
+          <div><span class="n">3</span><span class="t">Despesas por centro de custo</span><span class="p">pág. 4</span></div>
+          <div><span class="n">·</span><span class="t">Glossário</span><span class="p">pág. 7</span></div>
+          <div><span class="n">4</span><span class="t">Resultado do período (DRE)</span><span class="p">pág. 5</span></div>
         </div>
       </div>
     </div>`;
   return pdfPagina(conteudo, 1, ctx, { capa:true });
 }
 
-/* ---------- página 2: receitas operacionais ---------- */
+/* ---------- página 2: vendas e inadimplência ---------- */
+function pdfChartVendas(canvas, porMes){
+  const series = [ ['Recebido via Pix', COR_VEN.recebido, p=>p.r.recebido], ['A vencer', COR_VEN.aVencer, p=>p.r.aVencer], ['Vencido', COR_VEN.vencido, p=>p.r.vencido] ];
+  const totais = porMes.map(p=>p.r.total);
+  return new Chart(canvas.getContext('2d'), {
+    type:'bar',
+    data:{ labels:porMes.map(p=>MESES_NOME[p.mes].slice(0,3)), datasets:series.map(([label, cor, f], i)=>({
+      label, data:porMes.map(f), backgroundColor:cor, borderRadius:3, maxBarThickness:44, stack:'v',
+      datalabels: i === series.length-1 ? { display:true, anchor:'end', align:'end', offset:2, clip:false, color:'#5a4f47',
+        font:{ size:11, weight:'600' }, formatter:(_, c)=>fmtCompacto(totais[c.dataIndex]) } : { display:false } })) },
+    options:{
+      responsive:false, animation:false, devicePixelRatio:2,
+      layout:{ padding:{ top:24, right:8, left:4 } },
+      plugins:{ legend:{ display:false }, tooltip:{ enabled:false } },
+      scales:{
+        x:{ stacked:true, grid:{ display:false }, border:{ color:'rgba(31,26,23,0.18)' }, ticks:{ color:'#6f655c', font:{ size:12, weight:'500' } } },
+        y:{ stacked:true, beginAtZero:true, grid:{ color:'rgba(31,26,23,0.06)', drawTicks:false }, border:{ display:false },
+            ticks:{ color:'#8f857b', font:{ size:11 }, padding:8, callback:(v)=>fmtCompacto(v), maxTicksLimit:5 } }
+      }
+    }
+  });
+}
+function pdfPaginaVendas(ctx){
+  const { per, ant } = ctx;
+  const mesesAc = ctx.acum.map(p=>p.mes);
+  if (!appData.vendas.length){
+    return pdfPagina(`<div class="pdf-body"><div>${pdfSecao(1,'Vendas e Inadimplência','Acompanha as vendas (contratos de locação) fechadas em cada mês e o que já foi recebido de cada uma.')}
+      <div class="pdf-callout">${svgIcon('info')}<div><b>Seção indisponível.</b> Ela depende dos relatórios <b>Vendas Detalhadas</b> e <b>Relatório de Inadimplência</b> do Conta Azul.</div></div></div></div>`, 2, ctx);
+  }
+  const porMes = mesesAc.map(m=>({ ano:per.ano, mes:m, r:resumoVendas(vendasEnriquecidas([per.ano],[m])), caixa:entradasCaixa([per.ano],[m]) })).filter(p=>p.r.qtd);
+  const tot = resumoVendas(vendasEnriquecidas([per.ano], mesesAc)), caixa = entradasCaixa([per.ano], mesesAc);
+  const rMes = resumoVendas(vendasEnriquecidas([per.ano],[per.mes])), rAnt = resumoVendas(vendasEnriquecidas([ant.ano],[ant.mes]));
+  const temInad = appData.inad.length > 0, posicao = fmtData(appData.inadPosicao);
+  const tits = titulosVencidos([per.ano], mesesAc), totTit = tits.reduce((s,x)=>s+x.aberto,0);
+  const img = pdfGrafico(c=>pdfChartVendas(c, porMes), 118);
+
+  const linha = (rotulo, r, cartao, cls) => `<tr class="${cls}"><td>${rotulo}</td><td class="num">${fmtInt(r.qtd)}</td><td class="num"><b>${fmtBRL(r.total)}</b></td>
+    <td class="num">${fmtInt(r.nQuit)}</td><td class="num">${fmtInt(r.nParc)}</td><td class="num">${fmtInt(r.nAberta + r.nNd)}</td>
+    <td class="num ${cls==='destaque'?'':'receita'}">${fmtBRL(r.recebido)}</td><td class="num">${fmtBRL(r.aVencer)}</td>
+    <td class="num ${cls==='destaque' || r.vencido <= 0.004 ? '' : 'despesa'}">${temInad ? fmtBRL(r.vencido) : '—'}</td>
+    <td class="num">${temInad ? fmtPct(pctDe(r.vencido, r.total)) : '—'}</td><td class="num">${fmtBRL(cartao)}</td></tr>`;
+  const rank = (nome, meta, valor, cls) => { const pct = pctDe(valor, tot.total);
+    return `<tr><td><div class="pdf-rank-nome">${nome}</div><div class="pdf-rank-meta">${meta}</div><div class="pdf-bar ${cls}"><div style="width:${Math.min(100,pct)}%"></div></div></td><td class="num">${fmtPct(pct)}</td><td class="num"><b>${fmtBRL(valor)}</b></td></tr>`; };
+  const faixas = FAIXAS_ATRASO.map(([nome, de, ate])=>{ const f = tits.filter(x=>x.dias >= de && x.dias <= ate);
+    return `<tr><td>${nome}</td><td class="num">${fmtInt(f.length)}</td><td class="num"><b>${fmtBRL(f.reduce((s,x)=>s+x.aberto,0))}</b></td><td class="num">${fmtPct(pctDe(f.reduce((s,x)=>s+x.aberto,0), totTit))}</td></tr>`; }).join('');
+  const clientes = new Set(tits.map(x=>x.cliente)).size;
+
+  const conteudo = `<div class="pdf-body" style="gap:12px">
+    <div>${pdfSecao(1,'Vendas e Inadimplência','<b>Vendas</b> (contratos de locação) pelo mês em que foram fechadas: quanto de cada uma já foi recebido, quanto ainda vai vencer e quanto <b>venceu sem pagamento</b>. Cada venda conta uma única vez, pelo valor total do contrato.')}
+      <div class="pdf-nums">
+        ${pdfNum('Vendas em '+MESES_NOME[per.mes], fmtInt(rMes.qtd)+' vendas', fmtBRL(rMes.total)+(rAnt.total ? ` · ${rMes.total>=rAnt.total?'▲':'▼'} ${fmtPct(Math.abs(calcDelta(rMes.total, rAnt.total)))} vs ${MESES_NOME[ant.mes].toLowerCase()}` : ''))}
+        ${pdfNum(ctx.acumLabel, fmtInt(tot.qtd)+' vendas', fmtBRL(tot.total)+' · ticket médio '+fmtBRL(tot.ticket))}
+        ${pdfNum('Recebido via Pix', fmtBRL(tot.recebido), fmtPct(pctDe(tot.recebido, tot.total))+' do valor vendido', 'receita')}
+        ${pdfNum('Inadimplência (vencido)', temInad ? fmtBRL(tot.vencido) : '—', temInad ? `${fmtPct(pctDe(tot.vencido, tot.total))} do vendido · em ${posicao}` : 'depende do relatório de inadimplência', 'despesa')}
+      </div>
+      <div class="pdf-callout">${svgIcon('credit-card')}<div><b>Como ler esta seção.</b> O controle de recebimento das vendas é feito com os recebimentos via <b>Pix</b>, baixados na própria venda. Os recebimentos via <b>cartão de crédito</b> entraram direto na conta e <b>não foram baixados nas vendas</b>, por isso não podem ser cruzados com cada contrato: em ${ctx.acumFaixa} entraram <b>${fmtBRL(caixa.cartao)}</b> por cartão, contra <b>${fmtBRL(caixa.vendas)}</b> baixados em vendas via Pix. Parte das vendas que aparecem como em aberto ou vencidas pode já ter sido paga no cartão; os valores em aberto e de inadimplência tendem a estar <b>acima do real</b>.</div></div>
+    </div>
+    ${pdfCartaoGrafico('Valor vendido por mês e situação de recebimento', 'Valor dos contratos fechados em cada mês · o número acima da coluna é o total vendido', img,
+      legBarra(COR_VEN.recebido,'Recebido via Pix') + legBarra(COR_VEN.aVencer,'A vencer') + legBarra(COR_VEN.vencido,'Vencido'))}
+    <div><p class="pdf-sub">Vendas mês a mês · ${ctx.acumLabel.toLowerCase()}</p>
+      <table class="compacta" style="font-size:9.5px"><thead><tr><th>Mês da venda</th><th class="num">Vendas</th><th class="num">Valor vendido</th><th class="num">Por completo</th><th class="num">Parcial</th><th class="num">Em aberto</th>
+        <th class="num">Recebido (Pix)</th><th class="num">A vencer</th><th class="num">Vencido</th><th class="num">% inad.</th><th class="num">Cartão ¹</th></tr></thead>
+      <tbody>${porMes.map(p=>linha(MESES_NOME[p.mes], p.r, p.caixa.cartao, p.mes===per.mes ? 'resultado' : '')).join('')}
+        ${linha(ctx.acumLabel, tot, caixa.cartao, 'destaque')}</tbody></table>
+      <p class="pdf-chart-sub" style="margin:5px 0 0">Por completo, parcial e em aberto: quantidade de vendas. ¹ Cartão de crédito recebido na conta no mês, sem vínculo com as vendas.</p></div>
+    <div class="pdf-duas">
+      <div><p class="pdf-sub">Para onde foi o valor vendido</p>
+        <table class="compacta"><thead><tr><th>Situação</th><th class="num">%</th><th class="num">Valor</th></tr></thead><tbody>
+          ${rank('Recebido em vendas quitadas', plural(tot.nQuit,'venda recebida','vendas recebidas')+' por completo', tot.vQuit, 'receita')}
+          ${rank('Recebido em vendas parciais', plural(tot.nParc,'venda','vendas')+' com sinal ou parte paga', tot.vParcRec, 'receita')}
+          ${rank('A vencer', plural(tot.nAVencer,'venda','vendas')+' com saldo dentro do prazo', tot.aVencer, '')}
+          ${temInad ? rank('Vencido (inadimplência)', plural(tot.nVenc,'venda','vendas')+' com título vencido', tot.vencido, 'despesa') : ''}
+        </tbody></table></div>
+      <div><p class="pdf-sub">Títulos vencidos por tempo de atraso</p>
+        ${temInad ? `<table class="compacta"><thead><tr><th>Atraso</th><th class="num">Títulos</th><th class="num">Em aberto</th><th class="num">%</th></tr></thead><tbody>${faixas}
+          <tr class="resultado"><td>Total</td><td class="num">${fmtInt(tits.length)}</td><td class="num">${fmtBRL(totTit)}</td><td class="num">100,0%</td></tr></tbody></table>
+          <p class="pdf-chart-sub" style="margin:5px 0 0">${plural(clientes,'cliente','clientes')} com título vencido em ${posicao}. Prazo das vendas: 90 dias. A relação por cliente está no relatório on-line.</p>`
+        : `<div class="pdf-callout">${svgIcon('info')}<div>Disponível quando o <b>Relatório de Inadimplência</b> do Conta Azul entra na base.</div></div>`}</div>
+    </div>
+  </div>`;
+  return pdfPagina(conteudo, 2, ctx);
+}
+
+/* ---------- página 3: receitas operacionais ---------- */
 function pdfPaginaReceitas(ctx){
   const { per, ant, acum } = ctx;
   const mesesAc = acum.map(p=>p.mes);
@@ -4921,7 +5006,7 @@ function pdfPaginaReceitas(ctx){
     tabLoc = `<div class="pdf-callout">${svgIcon('info')}<div><b>Locações.</b> Ficam disponíveis quando o relatório de recebimentos e pagamentos detalhado, com as linhas "Venda", entra na base.</div></div>`;
   }
   const conteudo = `<div class="pdf-body">
-    <div>${pdfSecao(1,'Receitas Operacionais','Dinheiro que <b>efetivamente entrou</b> com a atividade principal da loja: o <b>aluguel de vestidos</b>. Os valores são os recebidos no mês (sinal de reserva e saldo na retirada), por isso podem não coincidir com as vendas fechadas no mesmo período.')}
+    <div>${pdfSecao(2,'Receitas Operacionais','Dinheiro que <b>efetivamente entrou</b> com a atividade principal da loja: o <b>aluguel de vestidos</b>. Os valores são os recebidos no mês (sinal de reserva e saldo na retirada), por isso podem não coincidir com as vendas fechadas no mesmo período.')}
       <div class="pdf-nums">
         ${pdfNum('Recebido em '+MESES_NOME[per.mes], fmtBRL(rMes), pdfDelta(rMes,rAnt,{rotulo:'vs '+MESES_NOME[ant.mes].toLowerCase()}), 'receita')}
         ${pdfNum(ctx.acumLabel, fmtBRL(rAcum), ctx.acumFaixa)}
@@ -4950,10 +5035,10 @@ function pdfPaginaReceitas(ctx){
       <tr class="destaque"><td>${ctx.acumLabel}</td><td class="num">${fmtBRL(somaFluxo(ehReceitaOperacional,'P',[per.ano],mesesAc))}</td><td class="num">${fmtBRL(rAcum)}</td><td class="num"></td><td class="num"></td><td class="num">100,0%</td></tr>
       </tbody></table></div>
   </div>`;
-  return pdfPagina(conteudo, 2, ctx);
+  return pdfPagina(conteudo, 3, ctx);
 }
 
-/* ---------- página 3: despesas ---------- */
+/* ---------- página 4: despesas ---------- */
 function pdfPaginaDespesas(ctx){
   const meses = mesesFechadosDoFiltro();   // mesmo recorte da tela: até o último mês fechado
   const centros = ccAgregado(state.anos, meses);
@@ -4970,7 +5055,7 @@ function pdfPaginaDespesas(ctx){
   const tabCentros = centros.slice(0,10).map(l=>linhaRank(l.nome, esc(topCats(l.nome)), l.valor)).join('');
   const tabCats = cats.slice(0,14).map(l=>linhaRank(l.nome, '', l.valor)).join('');
   const conteudo = `<div class="pdf-body" style="gap:18px">
-    <div>${pdfSecao(2,'Despesas por Centro de Custo e Categoria','Mostra <b>para onde foi o dinheiro</b>. Cada pagamento é classificado pelo <b>centro de custo</b> (a área da loja responsável: operação, administrativo, diretoria, comercial...) e pela <b>categoria</b> (a natureza do gasto: compra de vestidos, salários, aluguel, impostos).')}
+    <div>${pdfSecao(3,'Despesas por Centro de Custo e Categoria','Mostra <b>para onde foi o dinheiro</b>. Cada pagamento é classificado pelo <b>centro de custo</b> (a área da loja responsável: operação, administrativo, diretoria, comercial...) e pela <b>categoria</b> (a natureza do gasto: compra de vestidos, salários, aluguel, impostos).')}
       <div class="pdf-nums">
         ${pdfNum('Total de despesas', fmtBRL(total), 'Período: '+esc(ctx.periodoFiltro), 'despesa')}
         ${pdfNum('Maior centro de custo', centros[0] ? esc(centros[0].nome) : '—', centros[0] ? fmtPct(centros[0].valor/total*100)+' das despesas' : '')}
@@ -4987,10 +5072,10 @@ function pdfPaginaDespesas(ctx){
     </div>
     ${cats.length > 14 ? `<p class="pdf-chart-sub" style="margin-top:-8px">Exibidas as 14 maiores de ${cats.length} categorias. A relação completa, com filtro por centro de custo, está no relatório on-line.</p>` : ''}
   </div>`;
-  return pdfPagina(conteudo, 3, ctx);
+  return pdfPagina(conteudo, 4, ctx);
 }
 
-/* ---------- página 4: DRE ---------- */
+/* ---------- página 5: DRE ---------- */
 function pdfPaginaDre(ctx){
   const { per, ant, acum } = ctx;
   const aggAnt = dreAgregar([ant.ano],[ant.mes]), aggMes = dreAgregar([per.ano],[per.mes]);
@@ -5012,7 +5097,7 @@ function pdfPaginaDre(ctx){
   const img = pdfGrafico(c=>renderEvolucaoChart({ canvasEl:c, serieFn:serieDre('LO'), cor:(v)=>v>=0?COR.receita:COR.despesa,
     labelSerie:'Resultado operacional', labelAnterior:'Mês anterior', beginAtZero:false }), 190);
   const conteudo = `<div class="pdf-body">
-    <div>${pdfSecao(3,'Resultado do Período (DRE)','A Demonstração do Resultado organiza as entradas e saídas em grupos e mostra, passo a passo, <b>quanto sobra</b> depois de cada tipo de gasto. Lê-se de cima para baixo; as linhas em destaque são subtotais. A distribuição de lucros aos sócios aparece em "Outras receitas e despesas não operacionais".')}
+    <div>${pdfSecao(4,'Resultado do Período (DRE)','A Demonstração do Resultado organiza as entradas e saídas em grupos e mostra, passo a passo, <b>quanto sobra</b> depois de cada tipo de gasto. Lê-se de cima para baixo; as linhas em destaque são subtotais. A distribuição de lucros aos sócios aparece em "Outras receitas e despesas não operacionais".')}
       <table><thead><tr><th>Demonstração</th><th class="num">${esc(ctx.mesAnt)}</th><th class="num">${MESES_NOME[per.mes]}</th><th class="num">${ctx.acumLabel}</th><th class="num">% da receita</th></tr></thead>
       <tbody>${linhas}</tbody></table>
       <p class="pdf-chart-sub" style="margin-top:6px">"% da receita": quanto cada linha representa da receita bruta de ${MESES_NOME[per.mes]}. Margem bruta: lucro bruto ÷ receita bruta · margem operacional: resultado operacional ÷ receita bruta.</p>
@@ -5020,10 +5105,10 @@ function pdfPaginaDre(ctx){
     ${pdfCartaoGrafico('Resultado operacional mês a mês', 'O que a operação da loja gerou antes das retiradas dos sócios, investimentos e tributos', img,
       legBarra(COR.receita,'Resultado positivo') + legBarra(COR.despesa,'Resultado negativo') + legLinha(COR.linhaAnterior,'Resultado do mês anterior'))}
   </div>`;
-  return pdfPagina(conteudo, 4, ctx);
+  return pdfPagina(conteudo, 5, ctx);
 }
 
-/* ---------- página 5: fluxo de caixa + projeção ---------- */
+/* ---------- página 6: fluxo de caixa + projeção ---------- */
 function pdfPaginaFluxo(ctx){
   const { per, ant, acum } = ctx;
   const img = pdfGrafico(c=>pdfChartEntradasSaidas(c), 160);
@@ -5051,7 +5136,7 @@ function pdfPaginaFluxo(ctx){
     ${pj.pontos.map(p=>`<tr><td>${nomeMes(p.mes,p.ano,true)}</td><td class="num receita">${fmtBRL(p.rec)}</td><td class="num despesa">${fmtBRL(p.pag)}</td><td class="num ${p.ger>=0?'receita':'despesa'}">${fmtBRL(p.ger)}</td><td class="num ${p.saldo>=0?'saldo':'despesa'}"><b>${fmtBRL(p.saldo)}</b></td></tr>`).join('')}
     </tbody></table><p class="pdf-chart-sub" style="margin-top:6px">A projeção considera apenas o que já está lançado como previsto no sistema; novas reservas e despesas mudam o resultado.</p></div>` : '';
   const conteudo = `<div class="pdf-body" style="gap:16px">
-    <div>${pdfSecao(4,'Fluxo de Caixa','Acompanha o caminho do dinheiro nas contas: o <b>saldo</b> com que o mês começou, o que <b>entrou</b>, o que <b>saiu</b> e o saldo que ficou em conta no fim do mês. Ao final, a projeção mostra como o caixa deve se comportar nos próximos meses.')}
+    <div>${pdfSecao(5,'Fluxo de Caixa','Acompanha o caminho do dinheiro nas contas: o <b>saldo</b> com que o mês começou, o que <b>entrou</b>, o que <b>saiu</b> e o saldo que ficou em conta no fim do mês. Ao final, a projeção mostra como o caixa deve se comportar nos próximos meses.')}
       ${pdfCartaoGrafico('Entradas e saídas mês a mês', 'Valores realizados · apenas meses já encerrados · sem o saldo inicial de implantação', img,
         legBarra(COR.receita,'Entradas') + legBarra(COR.despesa,'Saídas') + legLinha(COR.accent,'Geração de caixa (entradas − saídas)'))}
     </div>
@@ -5063,10 +5148,10 @@ function pdfPaginaFluxo(ctx){
       <p class="pdf-chart-sub" style="margin-top:6px">${dfcNotas().join(' ')}</p></div>
     ${tabProj}
   </div>`;
-  return pdfPagina(conteudo, 5, ctx);
+  return pdfPagina(conteudo, 6, ctx);
 }
 
-/* ---------- página 6: considerações finais + glossário ---------- */
+/* ---------- página 7: considerações finais + glossário ---------- */
 function pdfPaginaConsideracoes(ctx){
   const d = computarConsideracoes();
   const itens = d ? d.itens.map(it=>`
@@ -5080,22 +5165,24 @@ function pdfPaginaConsideracoes(ctx){
     ['Resultado operacional','O que sobra da operação depois dos custos e despesas do dia a dia.'],
     ['Retiradas dos sócios','Distribuição de lucros e despesas pessoais pagas pela empresa.'],
     ['Centro de custo','A área da loja a que um gasto se refere (operação, administrativo, diretoria...).'],
+    ['Venda','O contrato de locação fechado com a cliente, pelo valor total combinado.'],
+    ['Inadimplência','Saldo de vendas com prazo vencido e sem recebimento baixado na venda.'],
   ].map(([t,x])=>`<div><b>${t}</b>${x}</div>`).join('');
   const conteudo = `<div class="pdf-body" style="gap:14px">
-    <div>${pdfSecao(5,'Insights e Considerações Finais','Leitura dos principais pontos do mês de referência, comparado ao mês anterior e ao acumulado do ano. Cada item está marcado como <b>ponto positivo</b>, <b>ponto de atenção</b> ou <b>informativo</b>.')}
+    <div>${pdfSecao(6,'Insights e Considerações Finais','Leitura dos principais pontos do mês de referência, comparado ao mês anterior e ao acumulado do ano. Cada item está marcado como <b>ponto positivo</b>, <b>ponto de atenção</b> ou <b>informativo</b>.')}
       ${d ? `<div class="pdf-resumo-geral"><div class="k">Em resumo</div>${d.resumo}</div>` : ''}
     </div>
     <div class="pdf-cons-lista">${itens}</div>
     <div><p class="pdf-sub">Glossário</p><div class="pdf-glossario">${glossario}</div></div>
     <div class="pdf-assinatura">Relatório elaborado por <b>Empresarial BPO Financeiro</b> para a <b>Bem Vista</b>, com base nos dados registrados no sistema financeiro até ${esc(dadosGeradoEm)}.</div>
   </div>`;
-  return pdfPagina(conteudo, 6, ctx);
+  return pdfPagina(conteudo, 7, ctx);
 }
 
 function montarPaginasPdf(){
   const ctx = pdfContexto();
   if (!ctx) throw new Error('Ainda não há um mês fechado na base para gerar o relatório.');
-  return [pdfPaginaCapa(ctx), pdfPaginaReceitas(ctx), pdfPaginaDespesas(ctx), pdfPaginaDre(ctx), pdfPaginaFluxo(ctx), pdfPaginaConsideracoes(ctx)];
+  return [pdfPaginaCapa(ctx), pdfPaginaVendas(ctx), pdfPaginaReceitas(ctx), pdfPaginaDespesas(ctx), pdfPaginaDre(ctx), pdfPaginaFluxo(ctx), pdfPaginaConsideracoes(ctx)];
 }
 
 // Segurança: se algum conteúdo passar da altura útil da página, reduz o corpo
